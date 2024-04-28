@@ -1,250 +1,58 @@
-# GitHub Pages Demo
+# 智安-强化学习模型自动化测试平台
 
-## :bulb: [What is GitHub Pages?](https://docs.github.com/en/github/working-with-github-pages/about-github-pages)
+## 什么是 智安 ?
 
-> GitHub Pages is a static site hosting service that takes HTML, CSS, and JavaScript files straight from a repository on GitHub, optionally runs the files through a build process, and publishes a website. 
-> You can see examples of GitHub Pages sites in the [GitHub Pages examples collection](https://github.com/collections/github-pages-examples).
+>智安平台是一个专为强化学习模型测试而构建的学习平台。
+>
+>伴随着人工智能赋能各行各业的智能化进程，强化学习因其在复杂环境中优化决策与提升长期效益的能力而成为关键技术[9]。其应用范围广泛，包括工业机器人、自动驾驶、无人机、自然语言处理等领域。然而，强化学习模型的黑盒特性和不确定性使得其安全性变得尤为重要，为响应这一挑战，本作品通过查阅大量文献开发了一个安全测试平台《智安——自主智能模型自动化测试平台》，采用环境异化与梯度优化技术，配合系统化的测试策略和评估指标，致力于提升强化学习模型的可信度和透明度，推动智能化产业的健康发展。
 
-> There are three types of GitHub Pages sites: project, user, and organization. 
-> Project sites are connected to a specific project hosted on GitHub, such as a JavaScript library or a recipe collection. User and organization sites are connected to a specific GitHub account.
+## 整体设计
 
-In this demo, we will create a GitHub Pages site connected to a repository.
+![整体设计](pic/frame.png,"整体思路")
+>本平台从模型的鲁棒性、对抗鲁棒性和可解释性三个角度评估强化学习模型的可信度和安全性。
 
-## :bulb: Prerequisite
+### 模型鲁棒性
 
-- Git supported local environment
-- Unix system - We will be using `wget` to retrieve a demo R Markdown file. You can download the file with other means if using other OS.
-- R environment
-- R [rmarkdown](https://cran.r-project.org/package=rmarkdown) package - we will use the `render` function to generate a HTML document from a R Markdown file.
+> 该模块针对模型对环境变化的鲁棒性和泛化能力进行测试。强化学习模型的训练环境常常无法完全覆盖真实的现实场景，故而在部署到现实时，会因为现实世界的复杂性而导致性能不佳。鉴于此，我们会从环境变异和负载异化两个角度对模型的鲁棒性进行综合测评。
 
------
+### 对抗鲁棒性
 
-## :computer: Create a new repository on GitHub
+> 在具有攻击威胁的对抗场景中，攻击者可能通过各种针对智能体的攻击方法来误导智能体的决策。本模块中，我们充分考虑到真实场景下的各种攻击情景，从对抗样本攻击、模型窃取攻击和后门攻击三种不同的攻击角度，全方位对模型在面对这种场景下的具体行为表现进行测试。
 
-First, we will create a **public** repository to enable Pages. You will be able have Pages in private repositories if you are a *GitHub Pro* user. You can initialize the repository with a README file and/or license if you wish, or add them later.
+### 模型可解释性
 
-![Create repository](https://user-images.githubusercontent.com/9032946/93335108-dfc21500-f81d-11ea-886b-c72d6c26f474.png)
+> 模型的不可解释性在强化学习中尤为突出，因为行为策略的形成过程和决策依据往往是复杂且不透明的。本平台通过模型决策树算法、动作空间分布可视化等多种方式，以可视化模型做出行为的决策依据。
 
-## :computer: Set up Pages
+## 测试管理
 
-Under the **:gear:Settings** tab of the repository page, scroll down to the **GitHub Pages** section. Click on the **Choose a theme** button under **Theme Chooser**.
+> 将不同测试角度模块化，可自定义测试方案，自动生成测试报告
+![测试管理](pic/test_manage.png,"测试管理")
 
-![GitHub Pages](https://user-images.githubusercontent.com/9032946/93335259-1009b380-f81e-11ea-88cf-d8454bbbb005.png)
+## 平台优势
 
-We can initialise the **Pages** feature by selecting a theme. Click on the **Select theme** button after selection. Here we will use the default **Cayman** theme.
+**技术先进**：参考并实现了大量文献中的技术，实现了八种对抗样本生成算法，以及环境异化技术。
+**功能全面**：从多个维度对强化学习模型进行测试，并设计了一套文本的评价指标。
+**开创性**：第一个系统化测试强化学习模型鲁棒性、对抗鲁棒性、可解释性的平台。
+**真实有效**：通过对测试结果进行严格分析，本作品的测试方法有效。
 
-![Select theme](https://user-images.githubusercontent.com/9032946/93335330-2e6faf00-f81e-11ea-9edb-36d158d0cec1.png)
+## 快速开始
 
-You will be redirected to the `index.md` file creating page. Click **Cancel** to accept the default content.
-
-![Create index.md](https://user-images.githubusercontent.com/9032946/93336776-20229280-f820-11ea-877b-c3ac0b34e3f4.png)
-
-Now we have a special new branch called **gh-pages**. This branch name is reserved for GitHub look for website content in the repository.
-
-![gh-pages branch](https://user-images.githubusercontent.com/9032946/93337031-78599480-f820-11ea-9cc4-354e657e15da.png)
-
-## :computer: URL of the site
-
-After the **gh-pages** branch is created, go to the **GitHub Pages** section in **:gear:Settings**. It will now show you the URL of your site.
-
-![url](https://user-images.githubusercontent.com/9032946/93337434-09c90680-f821-11ea-8eaf-b882a6b13111.png)
-
-With the **gh-pages** branch created, we can now use this special branch to host web content. 
-
-By default, GitHub will render the `index.md` file and show it as a web page. We can replace it with a `index.html`, or edit `index.md` to show the content we want.
-
-![Default site](https://user-images.githubusercontent.com/9032946/93337866-9b387880-f821-11ea-9516-a9250a00daef.png)
-
------
-
-## :computer: Cloning a repository
-
-In most cases, you will be working on a project or software on a local machine, and only push commits to the remote repository when you are ready to share it online. So, we will **clone** the repository from GitHub to the local machine. By doing so, we will obtain a full copy of the data and the commit histories of every file and folder that the GitHub repository has at that point in time. We can obtain the remote URL provided on the GitHub repository page by clicking on the **Code** button.
-
-In this tutorial we will use the follow local directory structure:
-
-### When in the master branch
-
-```
-/mnt
-├── project
-│   └── mtcars
-│       ├── index.html (your web page)
-│       └── mtcars.Rmd (your source code)
-└── github
-    └── R-Test-Repo
-        ├── .git
-        ├── LICENSE
-        ├── mtcars.Rmd
-        └── README.md     
-```
-
-### When in the gh-pages branch
-
-```
-/mnt
-├── project
-│   └── mtcars
-│       ├── index.html    
-│       └── mtcars.Rmd
-└── github
-    └── R-Test-Repo
-        ├── _config.yml
-        ├── .git
-        ├── index.html
-        └── index.md
-```
-On your local machine, initiate the cloning process with `git clone`.
+首先选择您的的模型的训练算法，如dqn、ppo、ddpg等。之后请将您模型的pth文件传入文件接收器，此外如果您在训练的时候使用了外部的自定义函数（例如在ppo模型的训练过程中需要自定义的dist_fn函数） 您需要将包含该函数的python文件传入。例如：
 
 ```S
-$ cd /mnt/github
-$ git clone https://github.com/USERNAME/R-Test-Repo.git
-
-Cloning into 'R-Test-Repo'...
-remote: Enumerating objects: 7, done.
-remote: Counting objects: 100% (7/7), done.
-remote: Compressing objects: 100% (4/4), done.
-remote: Total 7 (delta 0), reused 0 (delta 0), pack-reused 0
-Unpacking objects: 100% (7/7), done.
+import torch
+from torch.distributions import Distribution, Independent, Normal
+def dist(*logits: torch.Tensor) -> Distribution:
+    return Independent(Normal(*logits), 1)
 ```
 
-By default, `git clone` will download the contents in the **master** branch. You can check which branch you are currently in with `git branch`.
+同时为您的模型选择适配的环境，如gymnasium库中的CartPole-v1，Pendulum-v1等，或是基于gymnasium库接口的第三方环境如highway-env。
+![上传模型](pic/test_upload.png,"上传模型")
 
-```S
-$ cd /mnt/github/R-Test-Repo
-$ git branch
+在页面右侧设置好基本参数如训练设备、测试的回合数等，再根据需求选择是否执行环境异化测试和对抗攻击测试，并依次设置好相关的参数。若您需要环境异化测试，您需要设定环境属性改变后测试的回合数以及在奖励结构改变后的测试的回合数;若您需要对抗测试，请选择具体攻击算法，最后依据不同算法的不同参数需要，设置相关的参数。
 
-* master
-```
+![测试模块](pic/test_model.png,"测试模块")
 
-## :computer: Checkout a remote branch
+最后点击开始测试，进入测试结果页面后，可看到具体的测试进度，并实时显示测试结果。
 
-We can download the remote **gh-pages** branch and add it to our local repository with `git checkout`. 
-
-> **Note:** The same `git checkout` command can be use to retrieve any remote branch that exist in the remote repository.
-
-```S
-$ git checkout -b gh-pages origin/gh-pages
-
-Branch 'gh-pages' set up to track remote branch 'gh-pages' from 'origin'.
-Switched to a new branch 'gh-pages'
-```
-
-```S
-$ git branch
-
-* gh-pages
-  master
-```
-
------
-
-## :computer: Download `mtcars.Rmd`
-
-We can now start to use `git` as a version-control system to track and monitor changes. For example, we have a project named `mtcars` that we are working on and we would like to track the changes, and share the file and the rendered HTML document on GitHub.
-
-You can create your files inside the `R-Test-Repo` directory on your local machine that is tracked by `git`. For the simplicity of this demonstration, we will download the "mtcars.Rmd" file from [here](https://raw.githubusercontent.com/ycl6/GitHub-Pages-Demo/master/mtcars.Rmd).
-
-```S
-$ cd /mnt/project/mtcars
-$ wget https://raw.githubusercontent.com/ycl6/GitHub-Pages-Demo/master/mtcars.Rmd
-```
-
-## :computer: Convert Rmd to HTML
-
-Next, we use the `render` function in the `rmarkdown` package to generate the HTML document of the R Markdown file that we have just downloaded.
-
-We create the HTML document with the name `index.html` because a file with this name will be used as the default page shown on a website, i.e. the homepage of the website.
-
-```S
-$ R -e "rmarkdown::render('mtcars.Rmd', output_file = 'index.html')"
-
-R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
-Copyright (C) 2020 The R Foundation for Statistical Computing
-Platform: x86_64-conda_cos6-linux-gnu (64-bit)
-...
-...
-...
-Output created: index.html
-```
-
-## :computer: Add source code to master branch
-
-Go to the local repository, and check which branch you are in now.
-
-```S
-$ cd /mnt/github/R-Test-Repo
-$ git branch
-
-  gh-pages
-* master
-```
-
-If you are in another branch, e.g. the **gh-pages** branch, you can switch to the **master** branch with `git checkout`.
-
-```S
-$ git checkout master
-$ git branch
-
-  gh-pages
-* master
-```
-
-Copy the `mtcars.Rmd` to current directory, use `git` commands to push it to GitHub.
-
-```S
-$ cp /mnt/project/mtcars/mtcars.Rmd .
-
-$ git add .
-$ git commit -m "Initial commit"
-$ git push origin master 
-```
-
-## :computer: Add HTML to gh-pages branch
-
-Use `git checkout` to switch to the **gh-pages** branch and copy the `index.html` to current directory.
-
-```S
-$ git checkout gh-pages
-$ git branch
-
-* gh-pages
-  master
-```
-
-```S
-$ cp /mnt/project/mtcars/index.html .
-
-$ git add .
-$ git commit -m "Initial commit"
-$ git push origin gh-pages 
-```
-
-## :computer: View site on browser
-
-Use the URL provided in **:gear:Settings** that you saw earlier and go to your site on your browser.
-
-If the site content was not updated, you can do a *force refresh* by pressing both control and F5 to get the latest version of the site.
-
-![New site](https://user-images.githubusercontent.com/9032946/93347546-1e130080-f82d-11ea-9724-4be46d58bb59.png)
-
------
-
-## :bulb: Choosing publishing sources
-
-There are 3 publishing sources you can choose for a GitHub repository:
-
-1. in the **master** branch
-2. in the `docs` folder of the **master** branch (make sure the `docs` folder already exists in your repository)
-3. in the **gh-pages** branch
-
-In this demo, we are using the **gh-pages** branch to publish the website. You can use other sources if you find them more appropriate. For example, I am publishing the web version of this `GitHub-Pages-Demo` repository using the **master** branch, and GitHub renders this `README.md` file and show it as a [web page](https://ycl6.github.io/GitHub-Pages-Demo/).
-
-## :bulb: Extended Reading
-
-- [Using Git](https://docs.github.com/en/github/using-git): Learn common and advanced workflows in Git to enhance your experience using GitHub.
-- [Creating, cloning, and archiving repositories](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories): Learn about creating, cloning and archiving a GitHub repository.
-- [Writing on GitHub](https://docs.github.com/en/github/writing-on-github): Learn about writing and formatting syntax.
-- [Committing changes to your project](https://docs.github.com/en/github/committing-changes-to-your-project): Learn about commits.
-- [Working with GitHub Pages](https://docs.github.com/en/github/working-with-github-pages)
-- [Git Cheat Sheet](https://training.github.com/downloads/github-git-cheat-sheet/) [[PDF](https://training.github.com/downloads/github-git-cheat-sheet.pdf)]
+![测试结果](pic/test_model.png,"测试结果")
